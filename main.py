@@ -50,7 +50,7 @@ class YaUploader:
     def upload_vk_friends_photo(self,id_vk):
         result=[]
         i=1
-        self.papka("test/"+id_vk)
+        self.papka("test/"+str(id_vk))
         spisok_friends=requests.get('https://api.vk.com/method/friends.get?user_id='+str(id_vk)+'&fields=bdate&access_token=c95a7f4ec95a7f4ec95a7f4e00c920c5b9cc95ac95a7f4ea88f30626a14b98bdd430a77&v=5.131')
         KOLi=len(spisok_friends.json()['response']['items'])
         for friend in spisok_friends.json()['response']['items']:
