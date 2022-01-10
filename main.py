@@ -8,6 +8,7 @@ import requests
 class YaUploader:
     def __init__(self, token: str):
         self.token = token
+        self.papka("test")
 
     def ya_headers(self):
         return {
@@ -25,7 +26,7 @@ class YaUploader:
     def papka(self, nazvanie):
         url = "https://cloud-api.yandex.net/v1/disk/resources"
         headers = self.ya_headers()
-        params = {"path": "test/" + str(nazvanie)}
+        params = {"path": str(nazvanie)}
         response = requests.put(url, headers=headers, params=params)
         return response.json()
 
@@ -49,7 +50,7 @@ class YaUploader:
     def upload_vk_friends_photo(self,id_vk):
         result=[]
         i=1
-        self.papka(id_vk)
+        self.papka("test/"+id_vk)
         spisok_friends=requests.get('https://api.vk.com/method/friends.get?user_id='+str(id_vk)+'&fields=bdate&access_token=c95a7f4ec95a7f4ec95a7f4e00c920c5b9cc95ac95a7f4ea88f30626a14b98bdd430a77&v=5.131')
         KOLi=len(spisok_friends.json()['response']['items'])
         for friend in spisok_friends.json()['response']['items']:
