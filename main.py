@@ -48,19 +48,22 @@ class YaUploader:
 
     def upload_vk_friends_photo(self,id_vk):
         result=[]
-        i=0
+        i=1
         self.papka(id_vk)
         spisok_friends=requests.get('https://api.vk.com/method/friends.get?user_id='+str(id_vk)+'&fields=bdate&access_token=c95a7f4ec95a7f4ec95a7f4e00c920c5b9cc95ac95a7f4ea88f30626a14b98bdd430a77&v=5.131')
+        KOLi=len(spisok_friends.json()['response']['items'])
         for friend in spisok_friends.json()['response']['items']:
+            print("shag: ", str(i), "/", str(KOLi))
+            i+= 1
             photoes = requests.get('https://api.vk.com/method/photos.get?owner_id=' + str(friend['id']) + '&album_id=profile&extended=1&access_token=c95a7f4ec95a7f4ec95a7f4e00c920c5b9cc95ac95a7f4ea88f30626a14b98bdd430a77&v=5.131')
             if photoes.json().get('response') != None and photoes.json().get('error') == None:
                 if photoes.json()['response']['count'] > 0:
-                    i+=1
                     file_url = photoes.json()['response']['items'][0]['sizes'][-1]['url']
                     file_name = photoes.json()['response']['items'][0]['likes']['count']
                     file_size = photoes.json()['response']['items'][0]['sizes'][-1]['type']
                     self.upload_link(file_url,"test/"+str(id_vk)+"/"+str(file_name)+".jpg")
                     result.append({'file_name': str(file_name)+".jpg", 'size': file_size})
+        print("Ok!!!")
         return result
 
 def  vk_friends_photo_upload(id_vk):
@@ -82,7 +85,7 @@ def  vk_friends_photo_upload(id_vk):
 if __name__ == '__main__':
     # Получить путь к загружаемому файлу и токен от пользователя
     path_to_file_on_computer = "test.txt"
-    token = "AQAAAABXhZfHAADLW0t9sCIlwkPlnOFc_Q_3CBM"
+    token = ""
     uploader = YaUploader(token)
     result = uploader.upload(path_to_file_on_computer, '')
     #result = uploader.get_link_ya("test/net").get("href", "")
