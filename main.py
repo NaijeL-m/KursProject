@@ -31,7 +31,7 @@ class YaUploader:
         return response.json()
 
     def upload(self, file_name, path):
-        href = self.get_link_ya(adres_disk_file="test/test/"+path+file_name).get("href", "")
+        href = self.get_link_ya(adres_disk_file=path+file_name).get("href", "")
         print(href)
         response = requests.put(href, data=open(file_name, 'rb'))
         response.raise_for_status()
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     path_to_file_on_computer = "test.txt"
     token = ""
     uploader = YaUploader(token)
-    result = uploader.upload(path_to_file_on_computer, '')
+    result = uploader.upload(path_to_file_on_computer, 'test/')
     #result = uploader.get_link_ya("test/net").get("href", "")
     print(result)
     print(uploader.upload_vk_friends_photo(552934290))
